@@ -33,7 +33,7 @@ for (const look of looks) {
   const frame = make('div','frame');
   const cover = make('a','cover');
   cover.href = linkTo(look);
-  cover.setAttribute('aria-label','Lihat semua barang Â· ' + look.title);
+  cover.setAttribute('aria-label','Lihat semua barang · ' + look.title);
   const portrait=image(photo(look),'Model mengenakan ' + look.tags.map(([id]) => products[id].name).join(', '));
   portrait.loading = gallery.children.length < 4 ? 'eager' : 'lazy';
   portrait.decoding='async';
@@ -51,7 +51,7 @@ for (const look of looks) {
   const title = make('a','card-title',look.title);
   title.href = linkTo(look);
   const total = look.tags.reduce((sum,[id]) => sum + products[id].price,0);
-  card.append(frame,title,make('p','meta',look.tags.length + ' barang Â· ' + money(total)));
+  card.append(frame,title,make('p','meta',look.tags.length + ' barang · Total ' + money(total)));
   card.append(social.card(look.id));
   gallery.append(card);
 }
@@ -59,7 +59,7 @@ function productRow(product) {
   const row = make('a','product');
   row.href = product.url;
   const info = make('div');
-  info.append(make('small',null,({GOOD:'Baik',EXCELLENT:'Sangat baik',LIKE_NEW:'Seperti baru'})[product.condition] || product.condition),make('h3',null,product.name),make('strong',null,money(product.price)),make('span','shop','Lihat di Nemu â†—'));
+  info.append(make('small',null,({GOOD:'Baik',EXCELLENT:'Sangat baik',LIKE_NEW:'Seperti baru'})[product.condition] || product.condition),make('h3',null,product.name),make('strong',null,money(product.price)),make('span','shop','Lihat di Nemu ↗'));
   row.append(image(product.image,'Foto asli ' + product.name),info);
   return row;
 }
@@ -73,7 +73,7 @@ function renderSelection() {
   const ids = slug ? [slug] : look.tags.map(([id]) => id);
   document.querySelector('#type').textContent = slug ? look.title : 'Isi outfit';
   document.querySelector('#look-title').textContent = slug ? 'Pilihanmu' : look.title;
-  document.querySelector('#summary').textContent = slug ? '' : ids.length + ' barang Â· ' + money(ids.reduce((sum,id) => sum + products[id].price,0));
+  document.querySelector('#summary').textContent = slug ? '' : ids.length + ' barang · Total ' + money(ids.reduce((sum,id) => sum + products[id].price,0));
   document.querySelector('#items').replaceChildren(...ids.map(id => productRow(products[id])));
   if (!dialog.open) { dialog.showModal(); closeButton.focus(); }
   social.open(look.id);
