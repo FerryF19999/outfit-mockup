@@ -18,7 +18,7 @@ function store(visitor,{id,action,value,requestId}) {
 }
 const {page,looks}=require('./share-pages.cjs');
 const template=fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.ico':'image/x-icon'};
 http.createServer((req,res)=>{
  const url=new URL(req.url,'http://localhost');
  if(url.pathname==='/api/social')return handle(req,res,store);
@@ -26,6 +26,6 @@ http.createServer((req,res)=>{
  const galleryAlias = /^\/lookbook\/?$/.test(url.pathname);
  if(url.pathname==='/' || galleryAlias || look){res.writeHead(200,{'Content-Type':mime['.html']});return res.end(page(template,look,galleryAlias ? '/lookbook/' : '/'));}
  const name=url.pathname==='/'?'index.html':url.pathname.slice(1);
- if(!/^(index\.html|nemu\.svg|(?:catalog|looks|gallery|social-ui)\.js|style\.css|foto\/[\w-]+\.webp|share\/[\w-]+\.jpg)$/.test(name)){res.writeHead(404);return res.end();}
+ if(!/^(index\.html|favicon\.(?:svg|ico)|apple-touch-icon\.png|nemu\.svg|(?:catalog|looks|gallery|social-ui)\.js|style\.css|foto\/[\w-]+\.webp|share\/[\w-]+\.jpg)$/.test(name)){res.writeHead(404);return res.end();}
  fs.readFile(path.join(__dirname,name),(err,data)=>{res.writeHead(err?404:200,{'Content-Type':mime[path.extname(name)]});res.end(err?'':data);});
 }).listen(Number(process.env.PORT||62155),'127.0.0.1');
