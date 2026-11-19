@@ -8,6 +8,9 @@ for(const file of ['nemu.svg','style.css','catalog.js','looks.js','social-ui.js'
 }
 const template=fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
 fs.writeFileSync(path.join(output,'index.html'),page(template));
+const galleryDir=path.join(output,'lookbook');
+fs.mkdirSync(galleryDir,{recursive:true});
+fs.writeFileSync(path.join(galleryDir,'index.html'),page(template,null,'/lookbook/'));
 for(const look of looks){
   const dir=path.join(output,'look',look.id);
   fs.mkdirSync(dir,{recursive:true});

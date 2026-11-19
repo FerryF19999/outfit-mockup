@@ -23,7 +23,8 @@ http.createServer((req,res)=>{
  const url=new URL(req.url,'http://localhost');
  if(url.pathname==='/api/social')return handle(req,res,store);
  const look=looks.find(item=>url.pathname==='/look/'+item.id+'/' || url.pathname==='/look/'+item.id);
- if(url.pathname==='/' || look){res.writeHead(200,{'Content-Type':mime['.html']});return res.end(page(template,look));}
+ const galleryAlias = /^\/lookbook\/?$/.test(url.pathname);
+ if(url.pathname==='/' || galleryAlias || look){res.writeHead(200,{'Content-Type':mime['.html']});return res.end(page(template,look,galleryAlias ? '/lookbook/' : '/'));}
  const name=url.pathname==='/'?'index.html':url.pathname.slice(1);
  if(!/^(index\.html|nemu\.svg|(?:catalog|looks|gallery|social-ui)\.js|style\.css|foto\/[\w-]+\.webp|share\/[\w-]+\.jpg)$/.test(name)){res.writeHead(404);return res.end();}
  fs.readFile(path.join(__dirname,name),(err,data)=>{res.writeHead(err?404:200,{'Content-Type':mime[path.extname(name)]});res.end(err?'':data);});
