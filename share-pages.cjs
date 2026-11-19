@@ -6,7 +6,7 @@ function page(template, look, galleryPath = '/') {
   const id = look?.id || 'nemu-lookbook';
   const url = origin + (look ? '/look/'+id+'/' : galleryPath);
   const total = look?.tags.reduce((sum,[key]) => sum+products[key].price,0);
-  const title = look ? look.title+' Â· Nemu Versi Hemat' : '100 inspirasi outfit preloved Â· Nemu Versi Hemat';
+  const title = look ? look.title+' · Nemu Versi Hemat' : '100 inspirasi outfit preloved · Nemu Versi Hemat';
   const description = look ? look.tags.map(([key])=>products[key].name).join(' + ')+'. Total Rp'+total.toLocaleString('id-ID')+' sebelum ongkir. Bisa dibeli satuan di Nemu.' : 'Temukan gaya dari 100 look preloved. Ketuk pakaian yang kamu suka untuk lihat foto asli dan harga barangnya di Nemu.';
   const picture = origin+'/share/'+id+'.jpg';
   const alt = look ? 'Inspirasi '+look.title+' dan pilihan barang preloved Nemu.' : 'Kolase gaya preloved dari Nemu Versi Hemat.';
