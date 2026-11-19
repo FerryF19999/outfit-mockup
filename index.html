@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Galeri outfit preloved · Nemu Versi Hemat</title>
+  <meta name="description" content="Temukan outfit preloved dan ketuk penanda di foto untuk melihat barang aslinya di Nemu.">
+  <link rel="stylesheet" href="style.css"><script defer src="catalog.js"></script><script defer src="looks.js"></script><script defer src="social-ui.js"></script><script defer src="gallery.js"></script>
+</head>
+<body>
+<header><a class="brand" href="./" aria-label="Nemu, kembali ke galeri"><img src="nemu.svg" width="198" height="38" alt="Nemu"></a><span class="edition">Versi Hemat</span><a class="source" href="https://shop.nemu-ai.com/products?storeCategory=preloved&amp;sort=newest&amp;inStock=true">Katalog Nemu ↗</a></header>
+<main><section class="intro"><div><p class="kicker">100 look pilihan</p><h1>Outfit <em>preloved.</em></h1></div><p>Ketuk foto untuk lihat satu look, atau pilih tanda <b>+</b> pada barang yang kamu suka.</p></section>
+<section id="gallery" aria-label="Galeri outfit"></section><p id="gallery-status" role="status"></p><noscript>Aktifkan JavaScript untuk memilih outfit dan melihat detail barang.</noscript>
+</main><footer>Foto model merupakan ilustrasi AI. Foto barang berasal dari listing Nemu.</footer>
+<dialog id="details" aria-labelledby="look-title"><div class="sheet"><button id="close" aria-label="Tutup detail">×</button><p class="kicker" id="type"></p><h2 id="look-title"></h2><p id="summary"></p><div id="items"></div><p class="note">Harga belum termasuk ongkir. Cek stok terbaru di Nemu.</p><div id="discussion"></div><h3 id="comments-title">Komentar</h3><ul id="comment-list"></ul><form id="comment-form"><label for="comment">Tambah komentar</label><textarea id="comment" name="comment" maxlength="280" required rows="2"></textarea><button>Kirim</button></form><p id="social-status" role="status"></p></div></dialog>
+</body></html>
