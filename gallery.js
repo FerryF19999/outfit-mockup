@@ -1,11 +1,3 @@
-const originalLooks = [
-  { id:'terracotta', title:'Terakota & denim', tags:[['blouse-satin-terracota',48,31],['rok-jeans-mango-jeans',49,56]] },
-  { id:'linen', title:'Sabtu pakai linen', tags:[['kemeja-kuning',61,32],['tank-top-stripes-bw',48,47],['celana-panjang-linen',47,73]] },
-  { id:'satin', title:'Satin selepas sore', tags:[['jumpsuit-satin',51,47]] },
-  { id:'sage', title:'Hijau di sudut kota', tags:[['blouse-lengan-kerut-hijau',50,28],['jeans-selutut',50,58]] }
-];
-const looks = [...additionalLooks];
-[0,5,11,19].forEach((position,i) => looks.splice(position,0,originalLooks[i]));
 const money = n => 'Rp' + n.toLocaleString('id-ID');
 const photo = look => 'foto/model-' + look.id + '.webp';
 const gallery = document.querySelector('#gallery');
@@ -20,7 +12,7 @@ function make(tag, cls, text) {
   return el;
 }
 function linkTo(look, slug) {
-  return '#look/' + look.id + (slug ? '/' + slug : '');
+  return '/look/' + look.id + '/' + (slug ? '?barang=' + encodeURIComponent(slug) : '');
 }
 function image(src, alt) {
   const img = document.createElement('img');
@@ -30,6 +22,7 @@ function image(src, alt) {
 }
 for (const look of looks) {
   const card = make('article','card');
+  card.dataset.look = look.id;
   const frame = make('div','frame');
   const cover = make('a','cover');
   cover.href = linkTo(look);
@@ -64,12 +57,20 @@ function productRow(product) {
   return row;
 }
 function renderSelection() {
-  const [route,lookId,slug] = location.hash.slice(1).split('/');
+  const legacy = location.hash.startsWith('#look/');
+  const [route,lookId,oldSlug] = (legacy ? location.hash.slice(1) : location.pathname.slice(1)).split('/');
+  const slug = legacy ? oldSlug : new URLSearchParams(location.search).get('barang');
   const look = looks.find(item => item.id === lookId);
   if (route !== 'look' || !look || (slug && !look.tags.some(([id]) => id === slug))) {
     if (dialog.open) dialog.close();
     return;
   }
+  if(legacy) history.replaceState(history.state,'',linkTo(look,slug));
+  const model = document.querySelector('#look-photo');
+  model.src = photo(look);
+  model.alt = 'Inspirasi ' + look.title;
+  document.querySelector('#share-look').dataset.id = look.id;
+  document.querySelector('#share-status').textContent = '';
   const ids = slug ? [slug] : look.tags.map(([id]) => id);
   document.querySelector('#type').textContent = slug ? look.title : 'Isi outfit';
   document.querySelector('#look-title').textContent = slug ? 'Pilihanmu' : look.title;
@@ -81,13 +82,13 @@ function renderSelection() {
 gallery.addEventListener('click', event => { opener = event.target.closest('a'); });
 function dismiss() {
   if (history.state?.fromGallery) history.back();
-  else { history.replaceState(null,'',location.pathname + location.search); renderSelection(); }
+  else { history.replaceState(null,'','/'); renderSelection(); }
 }
 gallery.addEventListener('click',event => {
   const link = event.target.closest('a');
   if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault();
-  history.pushState({fromGallery:true},'',link.hash);
+  history.pushState({fromGallery:true},'',link.href);
   renderSelection();
 });
 window.addEventListener('hashchange',renderSelection);
@@ -98,3 +99,34 @@ dialog.addEventListener('click',event => { if(event.target === dialog) dismiss()
 dialog.addEventListener('close',() => {social.close();opener?.focus({preventScroll:true});});
 social.init();
 renderSelection();
+
+const filters = [
+  ['Semua', null], ['Denim', /denim|jeans/i], ['Rajut', /rajut|cardigan/i],
+  ['Sporty', /jersey|track pants|hoodie|windbreaker|olahraga/i], ['Linen', /linen/i]
+];
+const filterBar = document.querySelector('#filters');
+for (const [label,match] of filters) {
+  const button = make('button','filter',label);
+  button.setAttribute('aria-pressed',String(!match));
+  button.onclick = () => {
+    for(const sibling of filterBar.children) sibling.setAttribute('aria-pressed',String(sibling===button));
+    let total=0;
+    for(const [i,look] of looks.entries()) {
+      const visible = !match || match.test(look.title+' '+look.tags.map(([id])=>products[id].name).join(' '));
+      gallery.children[i].hidden = !visible;
+      if(visible) total++;
+    }
+    document.querySelector('#result-count').textContent=total+' look';
+  };
+  filterBar.append(button);
+}
+document.querySelector('#share-look').onclick = async event => {
+  const look = looks.find(item=>item.id===event.currentTarget.dataset.id);
+  const url = new URL(linkTo(look),location.origin).href;
+  try {
+    if(navigator.share) await navigator.share({title:look.title+' · Nemu',url});
+    else {await navigator.clipboard.writeText(url);document.querySelector('#share-status').textContent='Link disalin.';}
+  } catch(error) {
+    if(error.name!=='AbortError') document.querySelector('#share-status').textContent=url;
+  }
+};

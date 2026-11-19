@@ -266,3 +266,4 @@ const products = {
     "url": "https://shop.nemu-ai.com/products/store/whatstore/sepatu-onitsuka-tiger-mexico-66-paraty"
   }
 };
+if(typeof module !== 'undefined') module.exports = products;

@@ -1536,3 +1536,13 @@ const additionalLooks = [
     ]
   }
 ];
+const originalLooks = [
+  { id:'terracotta', title:'Terakota & denim', tags:[['blouse-satin-terracota',48,31],['rok-jeans-mango-jeans',49,56]] },
+  { id:'linen', title:'Sabtu pakai linen', tags:[['kemeja-kuning',61,32],['tank-top-stripes-bw',48,47],['celana-panjang-linen',47,73]] },
+  { id:'satin', title:'Satin selepas sore', tags:[['jumpsuit-satin',51,47]] },
+  { id:'sage', title:'Hijau di sudut kota', tags:[['blouse-lengan-kerut-hijau',50,28],['jeans-selutut',50,58]] }
+];
+const looks = [...additionalLooks];
+[0,5,11,19].forEach((position,i) => looks.splice(position,0,originalLooks[i]));
+
+if(typeof module !== 'undefined') module.exports = looks;

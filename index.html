@@ -2,15 +2,17 @@
 <html lang="id">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ffffff">
+  <base href="/"><meta name="theme-color" content="#ffffff">
   <title>Galeri outfit preloved · Nemu Versi Hemat</title>
   <meta name="description" content="Temukan outfit preloved dan ketuk penanda di foto untuk melihat barang aslinya di Nemu.">
   <link rel="stylesheet" href="style.css"><script defer src="catalog.js"></script><script defer src="looks.js"></script><script defer src="social-ui.js"></script><script defer src="gallery.js"></script>
 </head>
 <body>
 <header><a class="brand" href="./" aria-label="Nemu, kembali ke galeri"><img src="nemu.svg" width="198" height="38" alt="Nemu"></a><span class="edition">Versi Hemat</span><a class="source" href="https://shop.nemu-ai.com/products?storeCategory=preloved&amp;sort=newest&amp;inStock=true">Katalog Nemu ↗</a></header>
-<main><section class="intro"><div><p class="kicker">100 look pilihan</p><h1>Outfit <em>preloved.</em></h1></div><p>Ketuk foto untuk lihat satu look, atau pilih tanda <b>+</b> pada barang yang kamu suka.</p></section>
+<main><section class="mast"><div class="mast-copy"><p class="issue">Nemu Lookbook</p><h1>Outfit <em>preloved.</em></h1><p>Pilih gaya yang kamu suka. Ketuk tanda <b>+</b> untuk belanja barangnya.</p></div>
+<div class="spread" aria-label="Look pilihan"><a href="/look/terracotta/" aria-label="Terakota dan denim"><img src="foto/model-terracotta.webp" alt=""></a><a href="/look/linen/" aria-label="Sabtu pakai linen"><img src="foto/model-linen.webp" alt=""></a><a href="/look/sage/" aria-label="Hijau di sudut kota"><img src="foto/model-sage.webp" alt=""></a></div></section>
+<nav class="browse" aria-label="Filter gaya"><div id="filters"></div><span id="result-count" aria-live="polite">100 look</span></nav>
 <section id="gallery" aria-label="Galeri outfit"></section><p id="gallery-status" role="status"></p><noscript>Aktifkan JavaScript untuk memilih outfit dan melihat detail barang.</noscript>
 </main><footer>Foto model merupakan ilustrasi AI. Foto barang berasal dari listing Nemu.</footer>
-<dialog id="details" aria-labelledby="look-title"><div class="sheet"><button id="close" aria-label="Tutup detail">×</button><p class="kicker" id="type"></p><h2 id="look-title"></h2><p id="summary"></p><div id="items"></div><p class="note">Harga belum termasuk ongkir. Cek stok terbaru di Nemu.</p><div id="discussion"></div><h3 id="comments-title">Komentar</h3><ul id="comment-list"></ul><form id="comment-form"><label for="comment">Tambah komentar</label><textarea id="comment" name="comment" maxlength="280" required rows="2"></textarea><button>Kirim</button></form><p id="social-status" role="status"></p></div></dialog>
+<dialog id="details" aria-labelledby="look-title"><div class="sheet"><div class="detail-photo"><img id="look-photo" alt=""><span>Styling AI</span></div><div class="detail-body"><button id="close" aria-label="Tutup detail">×</button><p class="kicker" id="type"></p><h2 id="look-title"></h2><p id="summary"></p><button id="share-look" type="button">Bagikan look</button><span id="share-status" role="status"></span><div id="items"></div><p class="note">Harga belum termasuk ongkir. Cek stok terbaru di Nemu.</p><div id="discussion"></div><h3 id="comments-title">Komentar</h3><ul id="comment-list"></ul><form id="comment-form"><label for="comment">Tambah komentar</label><textarea id="comment" name="comment" maxlength="280" required rows="2"></textarea><button>Kirim</button></form><p id="social-status" role="status"></p></div></div></dialog>
 </body></html>

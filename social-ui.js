@@ -26,7 +26,7 @@ const social = (() => {
       el.title=labels[key];el.setAttribute('aria-label',labels[key]);
       if(key==='likes') el.onclick=()=>toggle(id);
       if(key==='comments') el.onclick=()=>{
-        if(!dialog.open){opener=el;history.pushState({fromGallery:true},'', '#look/'+id);renderSelection();}
+        if(!dialog.open){opener=el;history.pushState({fromGallery:true},'', '/look/'+id+'/');renderSelection();}
         field.focus();
       };
       wrap.append(el);

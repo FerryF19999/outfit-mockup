@@ -16,11 +16,15 @@ function store(visitor,{id,action,value,requestId}) {
   if(action){fs.writeFileSync(file+'.tmp',JSON.stringify(state));fs.renameSync(file+'.tmp',file);}
   return {...look,liked:!!guest.likes[id]};
 }
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.svg':'image/svg+xml'};
+const {page,looks}=require('./share-pages.cjs');
+const template=fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.svg':'image/svg+xml','.jpg':'image/jpeg'};
 http.createServer((req,res)=>{
  const url=new URL(req.url,'http://localhost');
  if(url.pathname==='/api/social')return handle(req,res,store);
+ const look=looks.find(item=>url.pathname==='/look/'+item.id+'/' || url.pathname==='/look/'+item.id);
+ if(url.pathname==='/' || look){res.writeHead(200,{'Content-Type':mime['.html']});return res.end(page(template,look));}
  const name=url.pathname==='/'?'index.html':url.pathname.slice(1);
- if(!/^(index\.html|nemu\.svg|(?:catalog|looks|gallery|social-ui)\.js|style\.css|foto\/[\w-]+\.webp)$/.test(name)){res.writeHead(404);return res.end();}
+ if(!/^(index\.html|nemu\.svg|(?:catalog|looks|gallery|social-ui)\.js|style\.css|foto\/[\w-]+\.webp|share\/[\w-]+\.jpg)$/.test(name)){res.writeHead(404);return res.end();}
  fs.readFile(path.join(__dirname,name),(err,data)=>{res.writeHead(err?404:200,{'Content-Type':mime[path.extname(name)]});res.end(err?'':data);});
 }).listen(Number(process.env.PORT||62155),'127.0.0.1');
